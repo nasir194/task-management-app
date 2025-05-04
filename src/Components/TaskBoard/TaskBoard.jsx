@@ -1,8 +1,13 @@
+import { useState } from "react";
+import { defaultTasks } from "../../utility/data";
 import SearchTask from "./SearchTask";
 import TaskActions from "./TaskActions";
 import TaskList from "./TaskList";
 
 export default function TaskBoard() {
+  const [tasks, setTasks] = useState(defaultTasks); // Initialize tasks with defaultTasks
+  console.log(tasks);
+
   return (
     <section className="mb-20" id="tasks">
       <div className="container">
@@ -15,7 +20,7 @@ export default function TaskBoard() {
           {/* <-- Task Actions End --> */}
 
           {/* <!-- TaskList Table begin--> */}
-          <TaskList />
+          <TaskList tasks={tasks} />
           {/* <!-- TaskList Table end--> */}
         </div>
       </div>
