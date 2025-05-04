@@ -7,9 +7,8 @@ import TaskList from "./TaskList";
 
 export default function TaskBoard() {
   const [tasks, setTasks] = useState(defaultTasks); // Initialize tasks with defaultTasks
-  //   console.log(tasks);
-
   const [showModal, setShowModal] = useState(false);
+  //   console.log(tasks);
 
   const handleAddTask = (newTask) => {
     const finalTask = { ...newTask, id: tasks.length + 1 };
@@ -17,6 +16,11 @@ export default function TaskBoard() {
     setShowModal(false); // Close the modal after saving
     // setTasks((prevTasks) => [...prevTasks, newTask]); // Add the new task to the existing tasks
     // Assign a new ID based on the current length of tasks
+  };
+
+  const handleDeleteTask = (taskId) => {
+    const updatedTasks = tasks.filter((task) => task.id !== taskId); // Filter out the task with the given ID
+    setTasks(updatedTasks); // Update the tasks state with the filtered tasks
   };
 
   return (
@@ -36,7 +40,7 @@ export default function TaskBoard() {
           {/* <-- Task Actions End --> */}
 
           {/* <!-- TaskList Table begin--> */}
-          <TaskList tasks={tasks} />
+          <TaskList tasks={tasks} onDelete={handleDeleteTask} />
           {/* <!-- TaskList Table end--> */}
         </div>
       </div>
