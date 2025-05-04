@@ -9,4 +9,9 @@ AddTask Steps:
                                  - in input field give value, name, and onChange event
                                  - use handleChange handler to get new obj from Form and change the state variable by setter fn.
 4. handleDeleteTask get an id and delete it by filtering the main tasks
-5. handleDeleteAllTasks - tasks.length = 0; setTasks([...tasks]); and conditional rendering between TaskList and NoTaskFound components 
+5. handleDeleteAllTasks - tasks.length = 0; setTasks([...tasks]); //empty array, so TaskList will not render the table 
+                        - and conditional rendering between TaskList and NoTaskFound components 
+6. Edit Task -> 
+    a. if a handler get obj/.. on its parameter[from click event], the nested fn can't pass this obj to as prop to the component in jsx.
+            so, we need useState, and pass this obj as arg in setter fn, updated value by setter fn we pass it as prop to the component.
+    b.   

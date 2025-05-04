@@ -9,7 +9,8 @@ import TaskList from "./TaskList";
 export default function TaskBoard() {
   const [tasks, setTasks] = useState(defaultTasks); // Initialize tasks with defaultTasks
   const [showModal, setShowModal] = useState(false);
-  //   console.log(tasks);
+  const [taskToUpdate, setTaskToUpdate] = useState(null); // State to hold the task to be edited
+  console.log(tasks);
 
   const handleAddTask = (newTask) => {
     const finalTask = { ...newTask, id: tasks.length + 1 };
@@ -27,12 +28,19 @@ export default function TaskBoard() {
   const handleDeleteAllTasks = () => {
     tasks.length = 0; // Clear the tasks array
     setTasks([...tasks]);
-    console.log(tasks); // Update the tasks state with the cleared array
+    console.log(tasks); // empty array, so TaskList will not render the table
+  };
+
+  const handleEditTask = (editTask) => {
+    setTaskToUpdate(editTask);
+    setShowModal(true); // Open the modal for editing
   };
 
   return (
     <section className="mb-20" id="tasks">
-      {showModal && <AddTaskModal onSave={handleAddTask} />}
+      {showModal && (
+        <AddTaskModal onAdd={handleAddTask} taskToUpdate={taskToUpdate} />
+      )}
 
       <div className="container">
         {/* <!-- Search Box --> */}
@@ -52,7 +60,11 @@ export default function TaskBoard() {
           {/* <!-- TaskList Table begin--> */}
 
           {tasks.length > 0 ? (
-            <TaskList tasks={tasks} onDelete={handleDeleteTask} />
+            <TaskList
+              tasks={tasks}
+              onDelete={handleDeleteTask}
+              onEdit={handleEditTask}
+            />
           ) : (
             <NoTaskFound />
           )}

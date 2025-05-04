@@ -1,13 +1,15 @@
 import { useState } from "react";
 
-export default function AddTaskModal({ onSave }) {
-  const [task, setTask] = useState({
-    title: "",
-    description: "",
-    tags: [],
-    priority: "",
-    isFavorite: false,
-  });
+export default function AddTaskModal({ onAdd, taskToUpdate }) {
+  const [task, setTask] = useState(
+    taskToUpdate || {
+      title: "",
+      description: "",
+      tags: [],
+      priority: "",
+      isFavorite: false,
+    }
+  );
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -98,7 +100,7 @@ export default function AddTaskModal({ onSave }) {
         {/* <!-- inputs ends --> */}
         <div className="mt-16 flex justify-center lg:mt-20">
           <button
-            onClick={() => onSave(task)}
+            onClick={() => onAdd(task)}
             type="submit"
             className="rounded bg-blue-600 px-4 py-2 text-white transition-all hover:opacity-80"
           >
