@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { defaultTasks } from "../../utility/data";
 import AddTaskModal from "./AddTaskModal";
+import NoTaskFound from "./NoTasksFound";
 import SearchTask from "./SearchTask";
 import TaskActions from "./TaskActions";
 import TaskList from "./TaskList";
@@ -23,6 +24,12 @@ export default function TaskBoard() {
     setTasks(updatedTasks); // Update the tasks state with the filtered tasks
   };
 
+  const handleDeleteAllTasks = () => {
+    tasks.length = 0; // Clear the tasks array
+    setTasks([...tasks]);
+    console.log(tasks); // Update the tasks state with the cleared array
+  };
+
   return (
     <section className="mb-20" id="tasks">
       {showModal && <AddTaskModal onSave={handleAddTask} />}
@@ -36,11 +43,20 @@ export default function TaskBoard() {
         {/* <!-- Search Box Ends --> */}
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
           {/* <-- Task Actions start --> */}
-          <TaskActions onAddModal={() => setShowModal(true)} />
+          <TaskActions
+            onAddModal={() => setShowModal(true)}
+            onDeleteAll={handleDeleteAllTasks}
+          />
           {/* <-- Task Actions End --> */}
 
           {/* <!-- TaskList Table begin--> */}
-          <TaskList tasks={tasks} onDelete={handleDeleteTask} />
+
+          {tasks.length > 0 ? (
+            <TaskList tasks={tasks} onDelete={handleDeleteTask} />
+          ) : (
+            <NoTaskFound />
+          )}
+
           {/* <!-- TaskList Table end--> */}
         </div>
       </div>

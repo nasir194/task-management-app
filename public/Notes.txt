@@ -8,4 +8,5 @@ AddTask Steps:
 3. form handling on AddTaskModal - create empty state obj
                                  - in input field give value, name, and onChange event
                                  - use handleChange handler to get new obj from Form and change the state variable by setter fn.
-4. 
+4. handleDeleteTask get an id and delete it by filtering the main tasks
+5. handleDeleteAllTasks - tasks.length = 0; setTasks([...tasks]); and conditional rendering between TaskList and NoTaskFound components 
