@@ -1,0 +1,11 @@
+--> if children needs to update parent state, then parent theke function as a props pass kore state update korte hoy
+      onAddModal={() => setShowModal(true)} - by clicking addTask, show modal opens. onAddModal pass as prop to where click event happen
+
+AddTask Steps:
+1. clicking add Task button, pop up the modal
+2. handleAddTask will get a newtask obj from AddTaskModal components and setTasks to ([...tasks,newtask]) and close modal
+    and pass this handler to the event where it happen (here click/submit)
+3. form handling on AddTaskModal - create empty state obj
+                                 - in input field give value, name, and onChange event
+                                 - use handleChange handler to get new obj from Form and change the state variable by setter fn.
+4. 
