@@ -10,14 +10,27 @@ export default function TaskBoard() {
   const [tasks, setTasks] = useState(defaultTasks); // Initialize tasks with defaultTasks
   const [showModal, setShowModal] = useState(false);
   const [taskToUpdate, setTaskToUpdate] = useState(null); // State to hold the task to be edited
-  console.log(tasks);
+  // console.log(tasks);
 
-  const handleAddTask = (newTask) => {
-    const finalTask = { ...newTask, id: tasks.length + 1 };
-    setTasks([...tasks, finalTask]); // Add the new task to the existing tasks
-    setShowModal(false); // Close the modal after saving
-    // setTasks((prevTasks) => [...prevTasks, newTask]); // Add the new task to the existing tasks
-    // Assign a new ID based on the current length of tasks
+  // for adding and editing tasks, we need the task object and a boolean to check if it's an add or edit operation
+  // If it's an add operation, we need to create a new task object with a unique ID
+  // If it's an edit operation, we need to find the task by ID and update it with the new values
+  const handle_Add_Edit_Task = (newTask, isAdd) => {
+    // Check if the task is being added or updated
+    if (isAdd) {
+      console.log(isAdd);
+      const finalTask = { ...newTask, id: tasks.length + 1 };
+      setTasks([...tasks, finalTask]);
+    } // If it's an update, find the task by ID and update it
+    else {
+      console.log(isAdd);
+      const updatedTasks = tasks.map((task) =>
+        task.id === newTask.id ? newTask : task
+      );
+      setTasks(updatedTasks); // Update the tasks state with the updated task
+    }
+    // Close the modal after adding or editing a task
+    setShowModal(false);
   };
 
   const handleDeleteTask = (taskId) => {
@@ -36,16 +49,43 @@ export default function TaskBoard() {
     setShowModal(true); // Open the modal for editing
   };
 
+  const handleCloseClick = () => {
+    setShowModal(false);
+    setTaskToUpdate(null);
+  };
+
+  const handleFav = (taskId) => {
+    const updatedTasks = tasks.map((task) => {
+      if (task.id === taskId) {
+        return { ...task, isFavorite: !task.isFavorite }; // Toggle the isFavorite property
+      }
+      return task; // Return the task unchanged if it doesn't match the ID
+    });
+
+    setTasks(updatedTasks);
+  };
+
+  const handleSearch = (searchTerm) => {
+    const filteredTasks = tasks.filter((task) =>
+      task.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setTasks([...filteredTasks]);
+  };
+
   return (
     <section className="mb-20" id="tasks">
       {showModal && (
-        <AddTaskModal onAdd={handleAddTask} taskToUpdate={taskToUpdate} />
+        <AddTaskModal
+          onAddEdit={handle_Add_Edit_Task}
+          taskToUpdate={taskToUpdate}
+          onCloseClick={handleCloseClick}
+        />
       )}
 
       <div className="container">
         {/* <!-- Search Box --> */}
         <div className="p-2 flex justify-end">
-          <SearchTask />
+          <SearchTask onSearch={handleSearch} />
         </div>
 
         {/* <!-- Search Box Ends --> */}
@@ -64,6 +104,7 @@ export default function TaskBoard() {
               tasks={tasks}
               onDelete={handleDeleteTask}
               onEdit={handleEditTask}
+              onFav={handleFav}
             />
           ) : (
             <NoTaskFound />
